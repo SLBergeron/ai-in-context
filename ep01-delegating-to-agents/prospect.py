@@ -153,7 +153,7 @@ def run(profile, output, state_path, allow_unverified=False, limit=25):
              f"Business positioning verified: {profile['positioning_verified']}.",
              "Guest title patterns are clues, not confirmation that a show accepts pitches.", ""]
     for row in new_rows:
-        lines.extend([f"- {row['show']} — score {row['score']}; {row['fit_evidence']}",
+        lines.extend([f"- {row['show']}: score {row['score']}; {row['fit_evidence']}",
                       f"  Directory: {row['directory_url']}", f"  Guest clues: {row['guest_evidence'] or 'not verified'}"])
     (output / (stamp + ".md")).write_text("\n".join(lines) + "\n")
     state["delivered"] = sorted(set(state["delivered"]) | {row["id"] for row in new_rows})

@@ -1,4 +1,4 @@
-name: Weekly podcast prospecting
+name: Ep 01 weekly podcast prospecting
 on:
   workflow_dispatch:
   schedule:
@@ -16,6 +16,9 @@ jobs:
     if: vars.ENABLE_PUBLIC_PROSPECTING == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ep01-delegating-to-agents
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p state
-          prior_run=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/weekly-prospecting.yml/runs?status=success&per_page=1" --jq '.workflow_runs[0].id // empty')
+          prior_run=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ep01-weekly-prospecting.yml/runs?status=success&per_page=1" --jq '.workflow_runs[0].id // empty')
           if [ -n "$prior_run" ]; then
             gh run download "$prior_run" --repo "$GITHUB_REPOSITORY" --name prospect-state --dir .
           fi
@@ -39,14 +42,14 @@ jobs:
         with:
           name: prospect-state
           path: |
-            state/
-            reports/
+            ep01-delegating-to-agents/state/
+            ep01-delegating-to-agents/reports/
           if-no-files-found: error
           retention-days: 90
       - name: Deliver prospect reports
         uses: actions/upload-artifact@v4
         with:
           name: podcast-prospects
-          path: reports/
+          path: ep01-delegating-to-agents/reports/
           if-no-files-found: error
           retention-days: 90

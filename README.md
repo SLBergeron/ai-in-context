@@ -1,94 +1,45 @@
-# Lemonbrand Podcast Prospector
+# AI in Context
 
-An open-source demo of weekly podcast discovery with an independent novelty eval.
-Built for [Lemonbrand](https://lemonbrand.io), which helps small businesses put AI
-into everyday operations. Follow along through the code, issues, tests, and eval
-methodology. Licensed under [MIT](LICENSE).
+AI in Context is a free live session I run every Thursday, 1 to 2 PM ET. Each week we pick one idea about working with AI agents and do it live, on a real task. The recordings go up on YouTube.
 
-## What it does
+This repo holds what gets built in the sessions. One folder per episode. Each folder has its own README, code and tests, so you can watch the replay and run the same thing yourself.
 
-- Searches Apple's public podcast directory using a configurable business profile.
-- Reads public RSS feeds for recent episodes, guest clues, websites, and contacts.
-- Ranks candidates and writes CSV, Markdown, and JSON reports locally.
-- Suppresses repeated show IDs, normalized host/publisher labels, and public emails.
-- Evaluates delivery against earlier reports: at least five new identity proxies
-  and zero repeats by default. Empty batches fail the prospecting goal.
+## Episodes
 
-The [podcast ICP](ICP.md) prioritizes shows for accounting/tax firm owners and
-independent insurance agency owners, followed by small-business operations and
-practical AI. Keyword matches are candidate clues, not confirmed audience fit.
+| Ep | Date | Topic | Replay | Code |
+|---:|---|---|---|---|
+| 01 | Oct 8, 2026 | Delegating to agents | [Watch](https://youtu.be/G45VTbDvHFc) | [ep01-delegating-to-agents](ep01-delegating-to-agents/) |
+| 02 | Oct 15, 2026 | Managing agent workflows | Live on Oct 15. [Register](https://lemonbrand.io/next/gh-repo) | After the session |
 
-## Quick start
+## Join the next one
 
-Python 3.12+ is required. No third-party packages or API keys are needed.
+- Register for the next session: https://lemonbrand.io/next/gh-repo
+- All sessions and replays: https://lemonbrand.io/live
+
+## Running the code
+
+Every episode folder is self-contained. Go into the folder and follow its README.
 
 ```sh
-cd /path/to/your/checkout
+git clone https://github.com/SLBergeron/gatsby-themes.git
+cd gatsby-themes/ep01-delegating-to-agents
 python -m unittest -q
-python prospect.py
 ```
 
-Edit `profile.json` for your business, search terms, keywords, geography, volume,
-and novelty target. Verify positioning before setting `positioning_verified`.
-The included Lemonbrand profile was researched from its public website.
+Ep 01 needs Python 3.12 or newer and nothing else. No packages to install, no API keys. The tests run on GitHub Actions on every push ([.github/workflows/tests.yml](.github/workflows/tests.yml)).
 
-Reports are saved in `reports/`; delivery history is saved in `state/`.
-Retain both across runs. They are ignored by Git and are not included in the
-public source repository. Never reset history merely to make the eval pass.
-All HTTPS requests retain TLS verification. Cloud users may need to allow
-`itunes.apple.com` and the exact hostnames of returned RSS feeds.
+## Where this repo came from
 
-## Prove the behavior
+In Ep 01 I needed a repo to hand to the agent, so I grabbed an old one:
 
-```sh
-python dry_run.py
-python evaluate.py reports/<timestamp>.json --history reports
-```
+> So I'm just going to use, I don't know, Gatsby themes, which I haven't touched in like six years.
 
-The dry run captures live public sources once, then replays simulated weekly
-runs in isolated state under `dry-runs/<timestamp>/`. It records source failures,
-checks repeat suppression and same-week scheduler skipping, injects a repeated
-publisher, and checks that production history remains unchanged.
+It started as a fork of Rocketseat's Gatsby themes. The agent cleared it out during the session. None of that code is left in the current files. It is still in the git history, under its original MIT license.
 
-The demo baseline delivered 20 then 17 new host/publisher identities with zero
-repeats. Once the fixed pool was exhausted, it delivered zero and correctly
-failed the novelty goal. Six mechanics checks and ten tests passed. See [ICP.md](ICP.md)
-for eval definitions and limitations. Individual prospect data and raw feeds are
-kept locally rather than committed as public demo evidence.
+## Contributing
 
-## Weekly scheduling
+Issues and pull requests are welcome. Say which episode folder it's about. Use made-up names and emails in tests and examples. Don't commit prospect reports, delivery history, cached feeds or credentials (the `.gitignore` already blocks the usual folders).
 
-For reports saved directly into your workspace, use an always-on host:
+## License
 
-```sh
-mkdir -p state
-nohup python -u schedule.py >> state/scheduler.log 2>&1 < /dev/null &
-```
-
-The schedule is Mondays at 14:00 UTC. The scheduler prevents concurrent instances,
-catches up the latest missed weekly cycle, and retries operational failures after
-one hour. It runs only while the host is awake. Restart it after a machine restart;
-files and history persist, but processes do not. A failed novelty eval is reported
-without retrying already delivered prospects indefinitely.
-
-The optional GitHub Actions workflow requires repository variable
-`ENABLE_PUBLIC_PROSPECTING=true`. It saves reports and state as Actions artifacts,
-which can be accessible to others in a public repository, rather than writing into
-this cloud workspace. Review that delivery model before enabling it. It restores
-prior delivery history and reports for independent evaluation. Artifacts expire
-after 90 days, so longer interruptions require restoring retained history.
-GitHub's scheduled execution can be delayed or disabled after inactivity.
-
-## Limits and roadmap
-
-Host/publisher labels are identity proxies, not proof of distinct people. Aliases
-can evade matching; shared publishers can suppress different hosts. RSS title
-patterns do not prove a show accepts pitches. Blocked feeds remain unverified.
-A finite directory snapshot does not demonstrate sustained weekly lead supply.
-
-Next improvements: verified host identities, stronger audience-fit evaluation,
-source expansion when discovery stalls, and response/booking metrics after real
-outreach. This routine does not send email. Reply rates are unmeasured.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute and [NOTICE.md](NOTICE.md) for
-the original Gatsby repository history and license attribution.
+[MIT](LICENSE).

@@ -86,7 +86,7 @@ def main():
     (root / 'result.json').write_text(json.dumps(result, indent=2))
     lines = ['# Podcast prospecting dry run', '', result['mode'], '', '| Scenario | Delivered | Repeats | Novelty eval |', '|---|---:|---:|---|']
     for step in steps:
-        lines.append(f"| {step['scenario']} | {step.get('delivered', 'skipped')} | {step.get('eval', {}).get('repeat_count', '—')} | {('PASS' if step['eval']['passed'] else 'FAIL') if 'eval' in step else 'not run'} |")
+        lines.append(f"| {step['scenario']} | {step.get('delivered', 'skipped')} | {step.get('eval', {}).get('repeat_count', 'n/a')} | {('PASS' if step['eval']['passed'] else 'FAIL') if 'eval' in step else 'not run'} |")
     lines.extend(['', '## Mechanics checks', ''])
     lines.extend(f"- {'PASS' if ok else 'FAIL'}: {name}" for name, ok in outcomes.items())
     lines.extend(['', '## Limits', ''] + ['- ' + value for value in result['limitations']])

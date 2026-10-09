@@ -21,7 +21,7 @@
   "max_leads": 20,
   "max_inactive_days": 120,
   "schedule": "Weekly; Monday 14:00 UTC default",
-  "delivery": "Ranked CSV and Markdown report in /workspace/gatsby-themes/reports",
+  "delivery": "Ranked CSV, Markdown and JSON report in reports/ next to prospect.py",
   "positioning_source": "https://lemonbrand.io",
   "speaking_topics": [
     "Finding repetitive work through inbox audits",

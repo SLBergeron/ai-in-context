@@ -3,8 +3,11 @@ on: [push, pull_request]
 permissions:
   contents: read
 jobs:
-  tests:
+  ep01:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ep01-delegating-to-agents
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

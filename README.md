@@ -1,54 +1,94 @@
-<h1 align="center">
-  <br>
-  <img src="https://storage.googleapis.com/golden-wind/github/gatsby-themes-logo.svg" alt="Rocketseat and Gatsby" width="260">
-  <br>
-  Rocketseat Gatsby Themes
-  <br>
-</h1>
+# Lemonbrand Podcast Prospector
 
-<h4 align="center">Gatsby themes that we use to build websites at <a href="https://rocketseat.com.br?utm_source=github-gatsby-themes" target="_blank">Rocketseat</a> ⚡️🔥</h4>
+An open-source demo of weekly podcast discovery with an independent novelty eval.
+Built for [Lemonbrand](https://lemonbrand.io), which helps small businesses put AI
+into everyday operations. Follow along through the code, issues, tests, and eval
+methodology. Licensed under [MIT](LICENSE).
 
-<p align="center">
-  <img src="https://img.shields.io/badge/PRs-welcome-%238257E6.svg" alt="PRs welcome!" />
+## What it does
 
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-%238257E6">
+- Searches Apple's public podcast directory using a configurable business profile.
+- Reads public RSS feeds for recent episodes, guest clues, websites, and contacts.
+- Ranks candidates and writes CSV, Markdown, and JSON reports locally.
+- Suppresses repeated show IDs, normalized host/publisher labels, and public emails.
+- Evaluates delivery against earlier reports: at least five new identity proxies
+  and zero repeats by default. Empty batches fail the prospecting goal.
 
-  <a href="https://twitter.com/intent/follow?screen_name=rocketseat">
-    <img src="https://img.shields.io/twitter/follow/rocketseat.svg?label=Follow%20@rocketseat" alt="Follow @rocketseat" />
-  </a>
-</p>
+The [podcast ICP](ICP.md) prioritizes shows for accounting/tax firm owners and
+independent insurance agency owners, followed by small-business operations and
+practical AI. Keyword matches are candidate clues, not confirmed audience fit.
 
-<p align="center">
-  <a href="#themes">Themes</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#need-help">Need help?</a> •
-  <a href="#license">License</a>
-</p>
+## Quick start
 
-## Themes
+Python 3.12+ is required. No third-party packages or API keys are needed.
 
-🚀 [`gatsby-theme-docs-core`](./@rocketseat/gatsby-theme-docs-core): The core theme for docs websites that includes all the data structures you need.
+```sh
+cd /path/to/your/checkout
+python -m unittest -q
+python prospect.py
+```
 
-🚀 [`gatsby-theme-docs`](./@rocketseat/gatsby-theme-docs): Out of the box Gatsby Theme for creating documentation websites easily and quickly.
+Edit `profile.json` for your business, search terms, keywords, geography, volume,
+and novelty target. Verify positioning before setting `positioning_verified`.
+The included Lemonbrand profile was researched from its public website.
 
-## Contributing
+Reports are saved in `reports/`; delivery history is saved in `state/`.
+Retain both across runs. They are ignored by Git and are not included in the
+public source repository. Never reset history merely to make the eval pass.
+All HTTPS requests retain TLS verification. Cloud users may need to allow
+`itunes.apple.com` and the exact hostnames of returned RSS feeds.
 
-Thanks for being interested in contributing! We’re so glad you want to help! Please take a little bit of your time and look at our [contributing guidelines](.github/CONTRIBUTING.md) and our
-[code of conduct](.github/CODE_OF_CONDUCT.md)! All type of contributions are welcome, such as bug fixes, issues or feature requests. Also, don't forget to check the roadmap.
+## Prove the behavior
 
-## Need help?
+```sh
+python dry_run.py
+python evaluate.py reports/<timestamp>.json --history reports
+```
 
-If you need help, feel free to open an issue with a description of the problem
-you're facing or, if you prefer, you can chat with us on our
-[forum](https://github.com/Rocketseat/gatsby-themes/discussions).
+The dry run captures live public sources once, then replays simulated weekly
+runs in isolated state under `dry-runs/<timestamp>/`. It records source failures,
+checks repeat suppression and same-week scheduler skipping, injects a repeated
+publisher, and checks that production history remains unchanged.
 
-## Thanks
+The demo baseline delivered 20 then 17 new host/publisher identities with zero
+repeats. Once the fixed pool was exhausted, it delivered zero and correctly
+failed the novelty goal. Six mechanics checks and ten tests passed. See [ICP.md](ICP.md)
+for eval definitions and limitations. Individual prospect data and raw feeds are
+kept locally rather than committed as public demo evidence.
 
-The following Open Source projects heavily inspire this project! Thanks, Apollo and LekoArts!
+## Weekly scheduling
 
-- [LekoArts Gatsby themes](https://github.com/LekoArts/gatsby-themes)
-- [Apollo Gatsby themes](https://github.com/apollographql/gatsby-theme-apollo)
+For reports saved directly into your workspace, use an always-on host:
 
-## License
+```sh
+mkdir -p state
+nohup python -u schedule.py >> state/scheduler.log 2>&1 < /dev/null &
+```
 
-MIT © [Rocketseat](https://github.com/Rocketseat)
+The schedule is Mondays at 14:00 UTC. The scheduler prevents concurrent instances,
+catches up the latest missed weekly cycle, and retries operational failures after
+one hour. It runs only while the host is awake. Restart it after a machine restart;
+files and history persist, but processes do not. A failed novelty eval is reported
+without retrying already delivered prospects indefinitely.
+
+The optional GitHub Actions workflow requires repository variable
+`ENABLE_PUBLIC_PROSPECTING=true`. It saves reports and state as Actions artifacts,
+which can be accessible to others in a public repository, rather than writing into
+this cloud workspace. Review that delivery model before enabling it. It restores
+prior delivery history and reports for independent evaluation. Artifacts expire
+after 90 days, so longer interruptions require restoring retained history.
+GitHub's scheduled execution can be delayed or disabled after inactivity.
+
+## Limits and roadmap
+
+Host/publisher labels are identity proxies, not proof of distinct people. Aliases
+can evade matching; shared publishers can suppress different hosts. RSS title
+patterns do not prove a show accepts pitches. Blocked feeds remain unverified.
+A finite directory snapshot does not demonstrate sustained weekly lead supply.
+
+Next improvements: verified host identities, stronger audience-fit evaluation,
+source expansion when discovery stalls, and response/booking metrics after real
+outreach. This routine does not send email. Reply rates are unmeasured.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) to contribute and [NOTICE.md](NOTICE.md) for
+the original Gatsby repository history and license attribution.

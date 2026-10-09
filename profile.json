@@ -1,0 +1,43 @@
+{
+  "business": "Lemonbrand",
+  "website": "https://lemonbrand.io",
+  "positioning_verified": true,
+  "positioning": "Practical AI implementation for small businesses: inbox and team workflow audits, staff-reviewed agents, maintenance and scaling. Named audiences include accounting and tax firms and independent insurance agencies.",
+  "search_terms": [
+    "small business AI",
+    "business workflow automation",
+    "accounting practice management",
+    "independent insurance agency"
+  ],
+  "fit_keywords": [
+    "small business",
+    "accounting",
+    "insurance",
+    "workflow",
+    "automation",
+    "artificial intelligence"
+  ],
+  "country": "US",
+  "max_leads": 20,
+  "max_inactive_days": 120,
+  "schedule": "Weekly; Monday 14:00 UTC default",
+  "delivery": "Ranked CSV and Markdown report in /workspace/gatsby-themes/reports",
+  "positioning_source": "https://lemonbrand.io",
+  "speaking_topics": [
+    "Finding repetitive work through inbox audits",
+    "Building AI agents that staff can review",
+    "Maintaining and scaling practical AI workflows",
+    "AI adoption in accounting firms and independent insurance agencies"
+  ],
+  "minimum_new_per_week": 5,
+  "podcast_icp": {
+    "primary": [
+      "Accounting/tax firm owner interview podcasts",
+      "Independent insurance agency owner interview podcasts"
+    ],
+    "secondary": [
+      "Small-business operations and practical AI adoption podcasts"
+    ],
+    "reference": "ICP.md"
+  }
+}

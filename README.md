@@ -9,7 +9,8 @@ This repo holds what gets built in the sessions. One folder per episode. Each fo
 | Ep | Date | Topic | Replay | Code |
 |---:|---|---|---|---|
 | 01 | Oct 8, 2026 | Delegating to agents | [Watch](https://youtu.be/G45VTbDvHFc) | [ep01-delegating-to-agents](ep01-delegating-to-agents/) |
-| 02 | Oct 15, 2026 | Managing agent workflows | Live on Oct 15. [Register](https://lemonbrand.io/next/gh-repo) | After the session |
+| 02 | Oct 15, 2026 | Managing agent workflows | [Watch](https://youtu.be/-fRqHW6lom4) | No code: a Claude project |
+| 03 | Oct 22, 2026 | Build lead lists | Coming soon on [lemonbrand.io/live](https://lemonbrand.io/live) | [ep03-build-lead-lists](ep03-build-lead-lists/) |
 
 ## Join the next one
 
